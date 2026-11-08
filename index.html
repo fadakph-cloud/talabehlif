@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f7fb">
+<title>منطق‌یار | حمل اولی و حمل شایع</title>
+<style>
+:root{
+ --bg:#f3f6fb;--surface:#fff;--surface2:#f7f9fc;--text:#172337;--muted:#66758a;
+ --line:#e2e8f0;--primary:#176b87;--primary-soft:#e5f4f8;--accent:#d99b32;
+ --good:#16845b;--good-bg:#e8f7ef;--bad:#c43d4b;--bad-bg:#fff0f1;
+ --shadow:0 8px 28px rgba(26,48,78,.08);--nav:#ffffffed
+}
+body.dark{
+ --bg:#101722;--surface:#182332;--surface2:#202d3e;--text:#edf3fb;--muted:#a8b6c8;
+ --line:#304055;--primary:#65c5dc;--primary-soft:#1c3a49;--accent:#f0c36c;
+ --good:#65d7a5;--good-bg:#17392e;--bad:#ff9292;--bad-bg:#40242b;
+ --shadow:0 8px 28px rgba(0,0,0,.2);--nav:#182332ed
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.95;transition:background .2s,color .2s;padding-bottom:130px}
+button,a{font:inherit}button{cursor:pointer}
+.app{max-width:920px;margin:auto;padding:14px 14px 22px}
+.topbar{position:sticky;top:0;z-index:20;margin:-14px -14px 14px;padding:12px 14px;background:var(--nav);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.toprow{max-width:920px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#1686a0,#4c78c8);color:white;display:grid;place-items:center;font-size:22px;font-weight:bold;box-shadow:0 5px 14px #176b8733}
+.brand strong{display:block;font-size:16px}.brand small{display:block;color:var(--muted);font-size:10px}
+.iconbtn{border:1px solid var(--line);background:var(--surface);color:var(--text);width:42px;height:42px;border-radius:13px;font-size:19px}
+.hero{padding:23px 20px;border-radius:23px;background:linear-gradient(125deg,#155e75,#1d7890 55%,#526fb0);color:#fff;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;left:-40px;top:-85px;width:210px;height:210px;border:1px solid #ffffff30;border-radius:50%;box-shadow:0 0 0 24px #ffffff12,0 0 0 50px #ffffff0a}
+.hero .eyebrow{font-size:11px;color:#c9f2f4;font-weight:bold}.hero h1{font-size:25px;line-height:1.6;margin:5px 0}.hero p{font-size:13px;color:#e0f2f6;margin:0;max-width:700px}
+.page{display:none;animation:appear .18s ease}.page.active{display:block}@keyframes appear{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+.section-title{font-size:20px;margin:4px 0 12px}.section-desc{font-size:13px;color:var(--muted);margin:-6px 0 15px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:13px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin:0 0 8px}.card p{margin:7px 0;color:var(--text);font-size:13px}
+.muted{color:var(--muted)!important}.chip{display:inline-flex;align-items:center;border-radius:30px;padding:3px 10px;font-size:10px;font-weight:bold;background:var(--primary-soft);color:var(--primary);margin:2px}
+.callout{padding:12px 13px;border-right:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));border-radius:11px;margin:12px 0;font-size:13px}
+.warn{padding:12px 13px;border-right:3px solid var(--bad);background:var(--bad-bg);border-radius:11px;margin:12px 0;font-size:13px}
+.formula{padding:13px;background:var(--surface2);border:1px dashed var(--line);border-radius:12px;text-align:center;font-size:18px;font-weight:bold;margin:10px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.feature{border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:15px;text-align:right;color:var(--text);box-shadow:var(--shadow);min-height:112px}
+.feature .ico{font-size:23px;display:block;margin-bottom:5px}.feature b{display:block;font-size:14px}.feature small{font-size:11px;color:var(--muted)}
+.action{border:0;background:var(--primary);color:white;padding:10px 15px;border-radius:12px;font-weight:bold;font-size:13px}
+.action.secondary{background:var(--surface2);border:1px solid var(--line);color:var(--text)}
+.action.full{width:100%}
+/* نوار ناوبری پایین */
+.tabs-bottom{position:fixed;z-index:30;bottom:0;left:0;right:0;background:var(--nav);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:7px 8px calc(7px + env(safe-area-inset-bottom));}
+.bottom-inner{max-width:650px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.navitem{border:0;background:transparent;color:var(--muted);border-radius:12px;padding:5px 2px;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.navitem span{font-size:19px;line-height:1.4}.navitem.active{background:var(--primary-soft);color:var(--primary);font-weight:bold}
+.case-card{overflow:hidden}.case-top{display:flex;align-items:flex-start;gap:9px}.num{flex:none;width:29px;height:29px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:bold;font-size:12px}.case-top h3{flex:1;margin:0;font-size:15px}.case-type{font-size:10px;color:var(--primary);background:var(--primary-soft);padding:3px 8px;border-radius:20px;white-space:nowrap}
+.case-body{font-size:13px}.case-body strong{color:var(--primary)}
+.expand{display:flex;align-items:center;justify-content:space-between;width:100%;border:1px solid var(--line);background:var(--surface2);color:var(--text);padding:9px 11px;border-radius:11px;margin-top:11px;font-size:12px;font-weight:bold}
+.answer{display:none;padding:13px;margin-top:10px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:13px}.answer.open{display:block}.answer p{margin:6px 0}.answer .result-label{font-weight:bold;color:var(--good)}
+.search{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:12px;margin-bottom:12px;outline:none}
+.quiz-q{font-weight:bold;font-size:14px;margin:0 0 12px}.choice{display:flex;align-items:flex-start;gap:9px;width:100%;text-align:right;padding:11px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;margin:7px 0;font-size:13px}
+.choice .letter{width:23px;height:23px;flex:none;border-radius:8px;background:var(--surface2);display:grid;place-items:center;font-size:11px;font-weight:bold}
+.choice.correct{border-color:var(--good);background:var(--good-bg)}.choice.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.feedback{display:none;border-radius:12px;padding:12px;margin-top:10px;font-size:12px}.feedback.show{display:block}.feedback.good{background:var(--good-bg);border:1px solid var(--good)}.feedback.bad{background:var(--bad-bg);border:1px solid var(--bad)}
+.progress{height:7px;background:var(--surface2);border-radius:20px;overflow:hidden;margin:9px 0 15px}.progress span{display:block;height:100%;width:0;background:var(--primary);transition:width .2s}
+.meta{font-size:11px;color:var(--muted)}.about-logo{width:76px;height:76px;margin:4px auto 13px;border-radius:24px;background:linear-gradient(135deg,#1686a0,#4c78c8);display:grid;place-items:center;color:white;font-size:36px;font-weight:bold}
+.linkbtn{display:block;text-align:center;text-decoration:none;border-radius:13px;background:#168b72;color:white;padding:11px;font-weight:bold;font-size:13px;margin-top:12px}
+
+/* ===== فوتر ثابت توسعه‌دهنده ===== */
+.fixed-developer-footer {
+  position: fixed;
+  bottom: 62px; /* بالای نوار ناوبری پایین */
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 40; /* بالاتر از نوار ناوبری (30) */
+  pointer-events: none;
+  padding: 0 10px;
+}
+.fixed-developer-footer span {
+  display: inline-block;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 12px rgba(0,0,0,.12);
+  border-radius: 30px;
+  padding: 4px 16px;
+  font-size: 10.5px;
+  color: var(--muted);
+  opacity: .98;
+  pointer-events: auto;
+  white-space: nowrap;
+  max-width: 95%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fixed-developer-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+.bottom-spacer{height:26px}
+ul{padding-right:20px;margin:7px 0}li{font-size:13px;margin:4px 0;color:var(--text)}
+@media(min-width:700px){.app{padding-top:20px}.topbar{margin-top:-20px;padding-top:14px}.hero{padding:30px}.hero h1{font-size:30px}.grid2{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:390px){.brand strong{font-size:14px}.hero h1{font-size:22px}.case-type{display:none}.card{padding:14px}.fixed-developer-footer span{font-size:9.5px;padding:3px 12px}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="toprow">
+ <div class="brand"><div class="logo">م</div><div><strong>منطق‌یار</strong><small>آموزش حمل اولی و حمل شایع</small></div></div>
+ <button class="iconbtn" id="themeBtn" aria-label="تغییر پوسته" title="تغییر حالت روشن و تاریک">☾</button>
+</div></div>
+<main class="app">
+<section id="home" class="page active">
+ <div class="hero"><div class="eyebrow">درس‌نامه تعاملی منطق</div><h1>حمل اولی ذاتی و حمل شایع صناعی</h1><p>تعریف را دقیق یاد بگیر، شبهه‌ها را مرحله‌به‌مرحله تحلیل کن و با آزمون چهارگزینه‌ای آموخته‌هایت را بسنج.</p></div>
+ <h2 class="section-title">از کجا شروع کنیم؟</h2><p class="section-desc">یکی از بخش‌های زیر را انتخاب کن.</p>
+ <div class="grid2">
+  <button class="feature" onclick="go('lesson')"><span class="ico">📘</span><b>آموزش حمل‌ها</b><small>تعریف، تفاوت و مثال‌های روشن</small></button>
+  <button class="feature" onclick="go('objections')"><span class="ico">💡</span><b>بانک شبهات</b><small>شبهات اعتقادی، قرآنی، کلامی و فقهی با پاسخ</small></button>
+  <button class="feature" onclick="go('quiz')"><span class="ico">📝</span><b>آزمون چهارگزینه‌ای</b><small>پاسخ فوری و توضیح کامل</small></button>
+  <button class="feature" onclick="go('about')"><span class="ico">ℹ️</span><b>درباره برنامه</b><small>معرفی و راه ارتباطی</small></button>
+ </div>
+ <div class="card" style="margin-top:14px"><h3>نقشه راه یادگیری</h3><p>۱. ابتدا تفاوت اتحاد مفهومی و اتحاد مصداقی را بفهم.</p><p>۲. سپس شبهه‌ها را بخوان و تشخیص بده مسئله واقعاً از کدام نوع است.</p><p>۳. در پایان آزمون بده؛ اگر گزینه‌ای اشتباه باشد، پاسخ صحیح و توضیح زیر همان سؤال نمایش داده می‌شود.</p></div>
+</section>
+
+<section id="lesson" class="page">
+ <div class="hero"><div class="eyebrow">بخش اول</div><h1>آموزش حمل اولی و حمل شایع</h1><p>کلید فهم این دو قسم، تشخیص نوع اتحاد میان موضوع و محمول است.</p></div>
+
+ <div class="card"><span class="chip">۱ · حمل اولی ذاتی</span><h3>اتحاد مفهومی</h3>
+  <p><b>تعریف دقیق:</b> در حمل اولی ذاتی، موضوع و محمول از نظر مفهوم و ماهیت متحدند؛ یعنی محمول همان حقیقت مفهومی موضوع را بیان می‌کند یا شرح و تحلیل آن است. به عبارت دیگر، حمل بر «ذات» و «مفهوم» است، نه بر وجود خارجی. تفاوت تعبیرها به معنای تفاوت دو حقیقت مفهومی نیست؛ مثلاً «انسان» و «حیوان ناطق» دو لفظ برای یک حقیقت مفهومی‌اند.</p>
+  <div class="formula">انسان = حیوان ناطق</div>
+  <p><b>تحلیل:</b> «انسان» یک مفهوم است و «حیوان ناطق» بیان تحلیلی همان مفهوم در منطق سنتی است. پس وقتی می‌گوییم «انسان حیوان ناطق است»، در مقام تعریف و تحلیل مفهوم سخن می‌گوییم. محمول عین ذات موضوع است.</p>
+  <div class="formula">مثلث = شکل سه‌ضلعی</div>
+  <p>«شکل سه‌ضلعی» مفهوم مثلث را توضیح می‌دهد؛ محمول شرح همان حقیقت مفهومی است.</p>
+  <div class="callout"><b>به زبان ساده:</b> حمل اولی مثل این است که بگویی «آب همان H₂O است». در اینجا داری یک چیز را با تعریف علمی یا ماهوی خودش معرفی می‌کنی. دو لفظ مختلف، اما یک حقیقت واحد.</div>
+ </div>
+
+ <div class="card"><span class="chip">۲ · حمل شایع صناعی</span><h3>اتحاد در مصداق و وجود</h3>
+  <p><b>تعریف دقیق:</b> در حمل شایع صناعی، مفهوم موضوع و محمول با یکدیگر متفاوت‌اند؛ اما در خارج یا در مصداق مورد بحث، یک واقعیت‌اند و محمول بر موضوع صدق می‌کند. به عبارت دیگر، حمل بر «وجود» و «مصداق» است. محمول از عوارض و ویژگی‌های موضوع است و اتحاد در وجود دارند.</p>
+  <div class="formula">زید انسان است.</div>
+  <p><b>تحلیل:</b> مفهوم «زید» با مفهوم کلی «انسان» یکی نیست. زید یک فرد مشخص است و مفهوم انسان بر او صدق می‌کند؛ بنابراین اتحاد در مصداق است، نه در مفهوم. «انسان بودن» عارض بر زید شده است.</p>
+  <div class="formula">این دیوار سفید است.</div>
+  <p>«دیوار» و «سفیدی» دو مفهوم متفاوت‌اند؛ اما این دیوار در خارج سفید است. سفیدی عارض بر دیوار شده است.</p>
+  <div class="callout"><b>به زبان ساده:</b> حمل شایع مثل این است که بگویی «علی خندان است» یا «این ماشین سریع است». «علی» یک چیز است و «خندان» صفتی است که بر او عارض شده. دو مفهوم متفاوت، اما در یک مصداق جمع شده‌اند.</div>
+ </div>
+
+ <div class="card"><h3>جدول مقایسه</h3><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+  <tr><th style="text-align:right;padding:8px;border-bottom:1px solid var(--line)">معیار</th><th style="text-align:right;padding:8px;border-bottom:1px solid var(--line)">حمل اولی</th><th style="text-align:right;padding:8px;border-bottom:1px solid var(--line)">حمل شایع</th></tr>
+  <tr><td style="padding:8px;border-bottom:1px solid var(--line)">اتحاد</td><td style="padding:8px;border-bottom:1px solid var(--line)">مفهومی</td><td style="padding:8px;border-bottom:1px solid var(--line)">مصداقی / وجودی</td></tr>
+  <tr><td style="padding:8px;border-bottom:1px solid var(--line)">مفهوم‌ها</td><td style="padding:8px;border-bottom:1px solid var(--line)">متحد</td><td style="padding:8px;border-bottom:1px solid var(--line)">متفاوت</td></tr>
+  <tr><td style="padding:8px;border-bottom:1px solid var(--line)">محمول</td><td style="padding:8px;border-bottom:1px solid var(--line)">عین ذات یا جزء ذات</td><td style="padding:8px;border-bottom:1px solid var(--line)">عارض بر ذات</td></tr>
+  <tr><td style="padding:8px">مثال</td><td style="padding:8px">انسان حیوان ناطق است</td><td style="padding:8px">زید انسان است</td></tr>
+ </table></div></div>
+
+ <div class="card"><h3>روش تشخیص سریع</h3><p>۱. موضوع را تصور کن؛ ۲. محمول را جداگانه تصور کن؛ ۳. ببین محمول شرح همان مفهوم است یا مفهوم دیگری است که بر مصداق موضوع صدق می‌کند.</p>
+  <div class="callout"><b>قاعده حفظی:</b> حمل اولی = اتحاد مفهومی. حمل شایع = اختلاف مفهومی همراه با اتحاد مصداقی.</div>
+  <div class="callout"><b>مثال ساده برای تشخیص:</b> جمله «انسان انسان است» را در نظر بگیر. اگر بگویی «انسان همان انسان است»، این حمل اولی است (اتحاد کامل مفهومی). اما اگر بگویی «علی انسان است»، چون علی یک فرد خارجی است و انسان یک مفهوم کلی، حمل شایع است (اتحاد در مصداق).</div>
+ </div>
+
+ <div class="warn"><b>دقت:</b> «ذاتی» در نام حمل اولی، صرفاً به معنای ذاتی باب کلیات خمس نیست. همچنین هر جمله‌ای که در آن یک وصف به چیزی نسبت داده شده، لزوماً نمونه آموزشیِ روشن و بی‌اختلافی از این تقسیم نیست. گاهی شبهات با تفکیک حیثیت، حکم اولی و ثانوی، اشتراک لفظی، حکایت و محکی یا اقتضا و فعلیت حل می‌شوند، نه صرفاً با حمل اولی و شایع.</div>
+</section>
+
+<section id="objections" class="page">
+ <div class="hero"><div class="eyebrow">بخش دوم</div><h1>بانک شبهات و پاسخ‌ها</h1><p>شبهه استاد درباره ابلیس و ابولهب در ابتدای فهرست آمده است. پاسخ هر مورد را باز کن تا صورت اشکال، جواب دقیق، پاسخ ساده و نسبت آن با بحث حمل را بخوانی.</p></div>
+ <input class="search" id="search" placeholder="جست‌وجوی شبهه؛ مثل ابلیس، شر، اختیار، قرآن..." oninput="filterCases()">
+ <div id="cases"></div>
+</section>
+
+<section id="quiz" class="page">
+ <div class="hero"><div class="eyebrow">بخش سوم</div><h1>آزمون یادگیری</h1><p>هر سؤال چهار گزینه دارد. با انتخاب پاسخ، نتیجه همان لحظه مشخص می‌شود؛ در صورت اشتباه، گزینه صحیح و توضیح کامل بلافاصله زیر گزینه‌ها می‌آید.</p></div>
+ <div class="card"><div style="display:flex;justify-content:space-between;gap:10px"><b>پیشرفت آزمون</b><span class="meta" id="progressText">۰ از ۱۵ پاسخ داده‌شده</span></div><div class="progress"><span id="progressBar"></span></div><div class="meta">برای یادگیری بهتر، توضیح هر سؤال را کامل بخوان.</div></div>
+ <div id="quizArea"></div>
+ <div class="card"><h3 id="scoreTitle">نتیجه آزمون</h3><p id="scoreText" class="muted">پس از پاسخ به سؤال‌ها، نتیجه اینجا نمایش داده می‌شود.</p><button class="action secondary full" onclick="resetQuiz()">شروع دوباره آزمون</button></div>
+</section>
+
+<section id="about" class="page">
+ <div class="hero"><div class="eyebrow">درباره برنامه</div><h1>درباره منطق‌یار</h1><p>ابزاری آموزشی برای مرور مفاهیم منطق، تمرین تحلیل شبهات و سنجش یادگیری.</p></div>
+ <div class="card" style="text-align:center;padding:25px">
+  <div class="about-logo">م</div><h2 style="margin:0;font-size:20px">منطق‌یار</h2>
+  <p class="muted">درس‌نامه تعاملی حمل اولی ذاتی و حمل شایع صناعی</p>
+  <div class="callout" style="text-align:right">این برنامه با هدف کمک به یادگیری و تمرین طراحی شده است. پاسخ شبهات، آموزشی و مقدماتی است؛ در مباحث تخصصی کلامی، فلسفی، تفسیری و فقهی باید به منابع معتبر و نظر استاد مراجعه شود.</div>
+  <h3 style="margin-top:18px">تهیه شده توسط: محمدرضا جباری</h3>
+  <a class="linkbtn" href="https://eitaa.com/talabehlife" target="_blank" rel="noopener">عضویت در کانال ایتا</a>
+ </div>
+ <div class="card"><h3>درباره محتوای علمی</h3><p>در این مجموعه تلاش شده میان نمونه‌هایی که مستقیماً با حمل اولی و شایع تحلیل می‌شوند و شبهاتی که به تمایزهای دیگری نیاز دارند، فرق گذاشته شود. هرجا پاسخ مبتنی بر تفاوت حیثیت، حکم اولی و ثانوی، اشتراک لفظی، اقتضا و فعلیت یا حکایت و محکی است، همان ابزار معرفی شده تا از نسبت دادن نادرست همه پاسخ‌ها به یک قاعده منطقی جلوگیری شود.</p></div>
+</section>
+<div class="bottom-spacer"></div>
+</main>
+
+<!-- فوتر ثابت توسعه‌دهنده - با z-index بالاتر از نوار ناوبری -->
+<div class="fixed-developer-footer">
+  <span>توسعه‌دهنده: محمدرضا جباری | <a href="https://eitaa.com/talabehlife" target="_blank">ایتا: talabehlife@</a></span>
+</div>
+
+<!-- نوار ناوبری پایین -->
+<div class="tabs-bottom"><div class="bottom-inner">
+ <button class="navitem active" data-go="home"><span>⌂</span>خانه</button>
+ <button class="navitem" data-go="lesson"><span>▤</span>آموزش</button>
+ <button class="navitem" data-go="objections"><span>◈</span>شبهات</button>
+ <button class="navitem" data-go="quiz"><span>✓</span>آزمون</button>
+ <button class="navitem" data-go="about"><span>ⓘ</span>درباره ما</button>
+</div></div>
+
+<script>
+// ------------------- داده شبهات (کامل‌تر) -------------------
+const objections=[
+{
+ title:"شبهه استاد: چرا نام ابلیس و ابولهب در قرآن محترم است؟",
+ type:"نمونه استاد · تفاوت حیثیت",
+ question:"ابلیس و ابولهب ذاتاً و از نظر شخصیت و کردار، موجوداتی مذموم‌اند. با این حال نام آن‌ها در قرآن آمده و لمس خط قرآن بدون وضو جایز نیست. اگر نام آن‌ها بد است، چرا نوشته‌شان حرمت دارد؟",
+ answer:"باید میان «شخصی که نام از او حکایت می‌کند» و «نوشته‌ای که در جایگاه آیه و جزئی از متن قرآن قرار گرفته» فرق گذاشت. ابلیس از جهت شخصیت و کردار، موجودی مذموم است؛ اما کلمه‌ای که در متن قرآن نوشته شده، از جهت جزئیت و انتساب به کلام الهی، بخشی از قرآن و دارای حرمت مصحف است. حکایت کردن از یک موجود ناپاک، نوشته قرآنی را ناپاک نمی‌کند. مثال ساده: کتاب پزشکی ممکن است درباره میکروب و بیماری سخن بگوید؛ این گزارش، خود کتاب را آلوده نمی‌کند. این مثال بیشتر نمونه تفاوت حیثیت و تفاوت موضوع حکم است و نباید آن را بی‌دقت، نمونه خالص حمل اولی و شایع دانست. حکم لمس خط قرآن به خط و نوشته قرآنی مربوط است؛ نه هر نوشته عادی که در آن نام ابلیس یا ابولهب آمده باشد. برای جزئیات حکم فقهی باید به فتوای مرجع تقلید مراجعه کرد.",
+ simple:"فرق بگذار بین «کسی که اسمش بد است» و «نوشته‌ای که در قرآن آمده». اسم ابلیس بد است چون خودش بد است، ولی وقتی همین اسم در قرآن نوشته می‌شود، آن نوشته جزو قرآن است و احترام قرآن را دارد. مثل اینکه یک کتاب پزشکی درباره میکروب حرف بزند؛ خود کتاب که میکروبی نمی‌شود!",
+ logic:"این مثال بیشتر نمونه تفاوت حیثیت و تفاوت موضوع حکم است و نباید آن را بی‌دقت، نمونه خالص حمل اولی و شایع دانست.",
+ lesson:"در این شبهه، «بد بودن شخص» با «حرمت و قداست متن قرآنی که نام او را نقل کرده» خلط شده است. حکم هر چیز تابع موضوع و جهت خودش است."
+},
+{
+ title:"چرا قرآن از شیطان، فرعون و امور ناپسند سخن می‌گوید؟",
+ type:"حکایت و محکی",
+ question:"اگر قرآن کلام پاک خداوند است، چرا در آن از شیطان، فرعون، گناه، نجاست و کارهای زشت صحبت شده است؟",
+ answer:"باید بین «حکایت‌کننده» و «محکی» فرق گذاشت؛ یعنی میان سخنی که از چیزی خبر می‌دهد و خود آن چیز. گزارش درست از یک رفتار زشت، به معنای تأیید آن رفتار نیست. قرآن وقتی از فرعون سخن می‌گوید، فرعون را تقدیس نمی‌کند؛ بلکه حقیقت رفتار او را برای عبرت و هدایت بیان می‌کند. این پاسخ مستقیماً بر تمایز حکایت و محکی تکیه دارد، نه بر حمل اولی و شایع. محتوای مذموم با فعلِ صحیحِ گزارش کردن آن یکی نیست.",
+ simple:"قرآن می‌گوید فرعون بد بود. این یعنی قرآن بد است؟ نه! قرآن دارد گزارش می‌دهد. مثل اینکه رادیو بگوید دیروز تصادف شد؛ رادیو که تصادف نکرده! گزارش از بدی، خودش بد نیست.",
+ logic:"این پاسخ مستقیماً بر تمایز حکایت و محکی تکیه دارد، نه بر حمل اولی و شایع.",
+ lesson:"گزارش از امر قبیح، لزوماً قبیح نیست؛ باید میان موضوع گزارش و فعل گزارش دادن فرق گذاشت."
+},
+{
+ title:"اگر شراب دنیا حرام است، چرا در بهشت شراب وجود دارد؟",
+ type:"تفاوت مصداق و اوصاف",
+ question:"در قرآن از شراب بهشتی سخن گفته شده؛ در حالی که شراب دنیوی حرام، مست‌کننده و زیان‌آور است. آیا این تناقض نیست؟",
+ answer:"اشتراک دو چیز در نام، به معنای اشتراک آن‌ها در همه ویژگی‌ها و احکام نیست. قرآن درباره شراب بهشتی اوصافی بیان می‌کند که آن را از شراب دنیوی جدا می‌سازد؛ از جمله اینکه مستی و زیان شراب دنیا را ندارد (آیات صافات ۴۷، محمد ۱۵ و واقعه ۱۹). نمی‌توان تنها از اشتراک لفظ «شراب» نتیجه گرفت که دو مصداق از هر جهت یکسان‌اند یا احکام یکسان دارند.",
+ simple:"هر دو اسمشان شراب است، ولی مثل «شیر» می‌ماند که هم شیر جنگل داریم هم شیر خوراکی. اسم یکی است، ولی ماهیتشان کاملاً فرق دارد. شراب بهشتی هیچ ضرری ندارد و مست نمی‌کند، پس حکم شراب دنیا را ندارد.",
+ logic:"نکته اصلی تفاوت مصداق و اوصاف است. حمل شایع در اینجا به کار می‌آید: محمول «حرمت» عارض بر شراب دنیوی است، نه بر شراب بهشتی.",
+ lesson:"هم‌نام بودن، مساوی با هم‌ماهیت بودن از همه جهات نیست."
+},
+{
+ title:"اگر خدا قادر مطلق است، آیا می‌تواند دروغ بگوید؟",
+ type:"تحلیل قدرت و محال",
+ question:"اگر خدا بر هر چیزی قادر است، باید بتواند دروغ بگوید؛ و اگر نتواند، قدرتش محدود است.",
+ answer:"قدرت به امر ممکن تعلق می‌گیرد. تناقض و امر محال، واقعیتی قابل تحقق نیست تا ناتوانی از آن نقص باشد. دروغ‌گویی اگر مستلزم جهل، فریب یا نقص باشد، با علم و کمال مطلق الهی ناسازگار است. نداشتن نقص، ناتوانیِ ناشی از ضعف نیست؛ بلکه کمال است. این شبهه در درجه نخست به تحلیل مفهوم قدرت، امکان و محال و صفات کمالی خداوند مربوط است؛ حمل اولی و شایع به تنهایی پاسخ آن نیست.",
+ simple:"قدرت یعنی «توانایی انجام کارهای ممکن». دروغ گفتن برای خدا ممکن نیست چون دروغ یعنی نقص و خدا کامل است. مثل اینکه بپرسی «آیا خدا می‌تواند یک سنگ بسازد که خودش نتواند بلند کند؟» این سؤال از اول محال است، نه اینکه قدرت خدا کم باشد.",
+ logic:"این شبهه بیشتر به تحلیل مفهوم قدرت و صفات کمالی مربوط است تا حمل اولی و شایع.",
+ lesson:"قدرت مطلق به معنای تعلق قدرت به محالات ذاتی یا امور مستلزم نقص نیست."
+},
+{
+ title:"اگر خدا خالق همه چیز است، آیا خالق شر و گناه هم هست؟",
+ type:"وجود و عنوان شر",
+ question:"شر و گناه در جهان وجود دارند. اگر خدا خالق همه چیز است، پس آیا خدا خالق شر و گناه است؟",
+ answer:"باید میان اصل وجود یک پدیده و عنوان شر بودن آن فرق گذاشت. آتش و حرارت از جهت وجود، واقعیت دارند؛ اما آتش‌سوزی نسبت به خانه و صاحب آن زیان و فقدان امنیت ایجاد می‌کند. در افعال اختیاری نیز خداوند آفریننده انسان، قدرت و نظام علّی است؛ اما عنوان نافرمانی و انتساب اخلاقی گناه به انتخاب نادرست انسان مربوط می‌شود. تقریر دقیق این بحث نیازمند بررسی نظریه‌های فلسفی درباره شر و نیز مسئله جبر و اختیار است.",
+ simple:"آتش را خدا آفریده، ولی «سوزاندن» یک عنوان است که وقتی کسی دستش را روی آتش می‌گذارد به وجود می‌آید. خدا آتش را خلق کرده، اما سوختن مربوط به اختیار و انتخاب ماست. گناه هم همین‌طور: خدا انسان و قدرت انتخاب را آفریده، اما انتخاب بد از خود ماست.",
+ logic:"تمایز حیثیت وجودی و حیثیت شرّی کمک می‌کند؛ اما این پاسخ مقدماتی، به تنهایی همه ابعاد مسئله شر را حل نمی‌کند.",
+ lesson:"ممکن است یک واقعیت از حیث اصل وجود، خیر یا کمال باشد و از حیث نسبت یا پیامد خاص، شر نامیده شود."
+},
+{
+ title:"اگر پیامبر انسان است، چرا گناه نمی‌کند؟",
+ type:"امکان در برابر ضرورت",
+ question:"انسان ممکن است گناه کند؛ پیامبر هم انسان است؛ پس پیامبر نیز باید گناه کند.",
+ answer:"از اینکه گناه برای انسان ممکن است، نتیجه نمی‌شود که هر انسانی حتماً گناه می‌کند. امکان یعنی محال نبودن، نه ضرورت وقوع. عصمت به معنای مصونیت از گناه با وجود اختیار است؛ علم و معرفت عمیق و ملکه نفسانی پیامبر سبب می‌شود آگاهانه به گناه رو نیاورد، نه اینکه اختیار از او سلب شده باشد. مغالطه اصلی تبدیل «امکان» به «ضرورت» است.",
+ simple:"اینکه می‌گوییم «انسان ممکن است گناه کند» یعنی «می‌تواند گناه کند»، نه «حتماً گناه می‌کند». مثل اینکه بگوییم «هر دانش‌آموزی ممکن است در امتحان تقلب کند»، این دلیل نمی‌شود که همه حتماً تقلب می‌کنند! پیامبر هم انسان است و می‌تواند گناه کند، ولی به خاطر معرفت بالا و اختیار خودش گناه نمی‌کند.",
+ logic:"مغالطه اصلی تبدیل «امکان» به «ضرورت» است. این پاسخ از مباحث کلامی عصمت و اختیار استفاده می‌کند؛ نه از حمل اولی و شایع به تنهایی.",
+ lesson:"ممکن بودن یک رفتار برای نوع انسان، مساوی با ضروری بودن آن برای همه افراد نیست."
+},
+{
+ title:"قرآن می‌گوید انسان عجول است؛ پس انسان صبور چه می‌شود؟",
+ type:"دامنه گزاره",
+ question:"آیه «وَكَانَ الْإِنْسَانُ عَجُولًا» (اسراء، ۱۱) انسان را عجول معرفی می‌کند؛ اما انسان‌های صبور هم وجود دارند.",
+ answer:"نباید بدون قرینه آیه را به این معنا گرفت که تک‌تک انسان‌ها در همه شرایط و همه رفتارها عجول‌اند. ممکن است آیه از گرایش نوعی یا زمینه‌ای انسان سخن بگوید؛ گرایشی که با ایمان، تربیت و تمرین مهار می‌شود. برای تعیین دقیق دامنه آیه باید سیاق و تفسیر آن بررسی شود. مسئله اصلی دامنه گزاره و تفاوت گرایش با رفتار بالفعل است. این مورد نمونه مستقیم حمل اولی و شایع نیست.",
+ simple:"«انسان عجول است» یعنی «طبیعتش تمایل به عجله دارد»، نه اینکه همه آدم‌ها همیشه عجله می‌کنند. مثل اینکه بگوییم «انسان موجودی فراموشکار است»؛ ولی خیلی‌ها حافظه قوی دارند. این گرایش را می‌شود با تمرین کنترل کرد.",
+ logic:"مسئله اصلی دامنه گزاره و تفاوت گرایش با رفتار بالفعل است.",
+ lesson:"در فهم گزاره‌های کلی باید دید مراد، همه افراد در همه حالات است یا بیان یک گرایش و ویژگی غالب."
+},
+{
+ title:"اگر خدا بی‌نیاز است، چرا عبادت و نماز می‌خواهد؟",
+ type:"غایت و نیاز",
+ question:"خدا از نماز و عبادت ما سودی نمی‌برد؛ پس چرا به عبادت فرمان داده است؟",
+ answer:"امر کردن به یک کار لزوماً برای رفع نیازِ امرکننده نیست. عبادت برای رشد، تربیت و قرب انسان است، نه برای تکمیل خداوند. آیه ۵۶ سوره ذاریات از غایت عبودیت سخن می‌گوید و آیات دیگر بی‌نیازی خداوند را بیان می‌کنند. باید میان غایت فعل برای انسان و نیاز فاعل تفاوت گذاشت. این تمایز، عین حمل اولی و شایع نیست.",
+ simple:"وقتی پدر و مادر به بچه می‌گویند «درس بخوان»، این برای این نیست که خودشان نمره بگیرند! برای رشد خود بچه است. خدا هم به نماز امر کرده برای رشد و کمال ما، نه اینکه خودش نیازی داشته باشد.",
+ logic:"باید میان غایت فعل برای انسان و نیاز فاعل تفاوت گذاشت.",
+ lesson:"ممکن است فرمانی برای منفعت و کمالِ مخاطب باشد، نه برای رفع نیازِ فرمان‌دهنده."
+},
+{
+ title:"اگر خدا از آینده خبر دارد، امتحان انسان چه فایده‌ای دارد؟",
+ type:"علم و تحقق خارجی",
+ question:"خدا از قبل می‌داند چه کسی بهشتی یا جهنمی می‌شود؛ پس امتحان گرفتن چه فایده‌ای دارد؟",
+ answer:"هدف امتحان الهی کشف مجهول برای خدا نیست. امتحان زمینه تحقق اختیاری عمل، فعلیت یافتن استعدادها و آشکار شدن استحقاق پاداش و کیفر در عالم عمل را فراهم می‌کند. علم پیشین خدا به فعل اختیاری، به خودی خود علت مجبور شدن انسان نیست. این مسئله به نسبت علم الهی، اختیار و علیت مربوط است و به استدلال کلامی دقیق نیاز دارد.",
+ simple:"خدا می‌داند من چه انتخابی می‌کنم، ولی این باعث نمی‌شود که من مجبور باشم. مثل اینکه معلم می‌داند فلان شاگرد تقلب می‌کند، ولی باز هم امتحان می‌گیرد تا همه ببینند و نمره واقعی مشخص شود. علم خدا به آینده، انتخاب را از من نمی‌گیرد.",
+ logic:"این مسئله به نسبت علم الهی، اختیار و علیت مربوط است و به استدلال کلامی دقیق نیاز دارد.",
+ lesson:"دانستنِ یک فعل، مساوی با مجبور کردن فاعل به انجام آن نیست."
+},
+{
+ title:"اگر دروغ بد است، چرا گاهی دروغ گفتن جایز می‌شود؟",
+ type:"حکم اولی و ثانوی",
+ question:"دروغ حرام است؛ اما در بعضی شرایط مثل ضرورت یا نجات جان بی‌گناه، ممکن است مجاز دانسته شود. آیا یک کار هم‌زمان هم حرام است و هم حلال؟",
+ answer:"حکم اولیه دروغ، حرمت است؛ اما در وضعیت‌های خاص و با تحقق شرایط شرعی، عنوان ثانوی ممکن است حکم را تغییر دهد. این مسئله ضابطه دارد و هر منفعت شخصی یا مصلحت‌سنجی دلخواهی مجوز دروغ نیست. حدود آن باید در فقه بررسی شود. این بحث از مباحث حکم اولی و ثانوی در اصول فقه است، نه حمل اولی و شایع. اگر موضوع با قید اضطرار سنجیده شود، موضوعِ حکم تغییر کرده است.",
+ simple:"دروغ در حالت عادی حرام است. ولی اگر جان یک بی‌گناه در خطر باشد، دروغ گفتن برای نجات او ممکن است جایز شود. این مثل این است که بگوییم «آب خوردن در روز ماه رمضان حرام است» ولی «برای مریض جایز است». موضوع عوض شده، پس حکم هم عوض می‌شود.",
+ logic:"این بحث از مباحث حکم اولی و ثانوی در اصول فقه است، نه حمل اولی و شایع.",
+ lesson:"برای ادعای تناقض باید موضوع و قیود دو حکم یکسان باشد؛ با تغییر موضوع یا عنوان، ممکن است دو حکم متناقض نباشند."
+},
+{
+ title:"اگر نماز از گناه بازمی‌دارد، چرا بعضی نمازگزاران گناه می‌کنند؟",
+ type:"اقتضا و اثر بالفعل",
+ question:"آیه ۴۵ عنکبوت می‌گوید نماز از فحشا و منکر بازمی‌دارد؛ پس چرا برخی نماز می‌خوانند و باز هم گناه می‌کنند؟",
+ answer:"بازدارندگی نماز می‌تواند به معنای اثر تربیتی و اقتضای آن باشد، نه تضمین مکانیکیِ ترک هر گناه در هر فرد و هر شرایط. میزان حضور قلب، شناخت، استمرار و عمل به لوازم نماز در اثرگذاری دخیل است. باید آیه را با سیاق و تفسیر معتبر فهمید. تمایز اقتضا و علت تامه و تفاوت اثرگذاری با تحقق قطعی مهم است.",
+ simple:"نماز مثل دارو می‌ماند. دارو اثر دارد، ولی اگر کسی دارو را نصفه بخورد یا با غذاهای مضر مصرف کند، اثرش کم می‌شود. نماز هم اثر بازدارندگی دارد، ولی بستگی به حضور قلب و توجه نمازگزار دارد.",
+ logic:"تمایز اقتضا و علت تامه و تفاوت اثرگذاری با تحقق قطعی مهم است.",
+ lesson:"داشتن اقتضای یک اثر، همیشه به معنای تحقق حتمی و کامل آن اثر نیست."
+},
+{
+ title:"اگر علم کمال است، چرا بعضی عالمان رفتار بدی دارند؟",
+ type:"تمایز صفت و صاحب صفت",
+ question:"علم فضیلت و کمال است؛ اما برخی عالمان بدرفتارند. پس آیا علم واقعاً کمال است؟",
+ answer:"باید میان خود علم به عنوان کمال شناختی و شخصیت عالم که مجموعه‌ای از صفات و انتخاب‌هاست فرق گذاشت. داشتن یک کمال تضمین نمی‌کند فرد از همه کمالات برخوردار باشد. ممکن است کسی عالم باشد اما در اراده، اخلاق یا عمل ضعف داشته باشد. «علم کمال است» و «فلان عالم بدرفتار است» متناقض نیستند؛ محمول‌ها از دو حیث متفاوت سخن می‌گویند.",
+ simple:"علم یک صفت خوب است، ولی عالم شدن یعنی فقط این یک صفت را داری. ممکن است کسی ریاضی‌دان خوبی باشد ولی اخلاق خوبی نداشته باشد. این دو تا ربطی به هم ندارند.",
+ logic:"«علم کمال است» و «فلان عالم بدرفتار است» متناقض نیستند؛ محمول‌ها از دو حیث متفاوت سخن می‌گویند.",
+ lesson:"داشتن یک صفت مثبت، مساوی با خوب بودن همه ابعاد صاحب آن صفت نیست."
+},
+{
+ title:"اگر قرآن شفا است، چرا بیمار با خواندن آن همیشه خوب نمی‌شود؟",
+ type:"معنا و قلمرو واژه",
+ question:"قرآن شفا معرفی شده، اما بیماری جسمی همه افراد با تلاوت قرآن درمان نمی‌شود؛ آیا این تعارض است؟",
+ answer:"باید دید واژه شفا در آیه و سیاق آن به چه نوع بیماری یا آسیبی اشاره دارد. برخی آیات از شفا و رحمت برای مؤمنان سخن می‌گویند و مفسران درباره شمول آن نسبت به بیماری‌های قلبی، معنوی یا ابعاد دیگر بحث کرده‌اند. از تعبیر شفا نمی‌توان بدون دلیل نتیجه گرفت تلاوت، جایگزین قطعی درمان پزشکی همه بیماری‌های جسمی است. تعیین معنای واژه، سیاق و قلمرو گزاره لازم است.",
+ simple:"«شفا» در قرآن بیشتر شفای دل و روح است. مثل اینکه می‌گوییم «علم نور است»؛ این یعنی علم روشنایی می‌دهد، نه اینکه لامپ روشن می‌کند! قرآن هم شفای معنوی است، هرچند ممکن است برای بعضی بیماری‌های جسمی هم اثر داشته باشد، ولی قرار نیست جای دکتر و دارو را بگیرد.",
+ logic:"تعیین معنای واژه، سیاق و قلمرو گزاره لازم است. این شبهه با حمل اولی و شایع به تنهایی حل نمی‌شود.",
+ lesson:"برای فهم گزاره، معنای واژه و دامنه‌ای را که در آن به کار رفته مشخص کن."
+},
+{
+ title:"اگر انسان ضعیف آفریده شده، پس انسان‌های قدرتمند چه می‌شوند؟",
+ type:"حیثیت و نسبیت وصف",
+ question:"آیه ۲۸ سوره نساء می‌گوید انسان ضعیف آفریده شده؛ اما انسان توانایی‌ها و قدرت‌های فراوان دارد.",
+ answer:"ضعف انسان می‌تواند ناظر به محدودیت ذاتی، نیازمندی، آسیب‌پذیری یا زمینه خاصی در سیاق آیه باشد؛ نه نفی همه توانایی‌های او. یک موجود می‌تواند از جهتی قدرتمند و از جهت دیگر نیازمند و محدود باشد. تفاوت حیثیت‌ها و توجه به سیاق آیه لازم است. برای تعیین دقیق معنای آیه باید تفسیر معتبر بررسی شود.",
+ simple:"یک آدم می‌تواند هم قوی باشد هم ضعیف، ولی از دو جهت مختلف. مثلاً یک قهرمان وزنه‌برداری خیلی قوی است، ولی اگر مریض شود ضعیف می‌شود. آیه می‌گوید انسان از جهت نیازمندی و محدودیت ضعیف است، نه اینکه هیچ قدرتی ندارد.",
+ logic:"تفاوت حیثیت‌ها و توجه به سیاق آیه لازم است.",
+ lesson:"یک وصف ممکن است از جهتی صادق باشد و از جهت دیگر نفی شود، بی‌آنکه تناقضی رخ دهد."
+},
+{
+ title:"اگر قرآن کلام خداست، چرا کاغذ و مرکب آن مخلوق‌اند؟",
+ type:"لفظ، معنا و حامل",
+ question:"قرآن روی کاغذ و با مرکب نوشته می‌شود؛ کاغذ و مرکب مخلوق‌اند. پس چگونه قرآن کلام خداست؟",
+ answer:"باید میان پیام و محتوای منسوب به گوینده، الفاظ و اصواتی که آن را منتقل می‌کنند، و حامل مادی مانند کاغذ و مرکب فرق گذاشت. مخلوق بودن کاغذ یا صدای قاری، انتساب پیام به گوینده را نفی نمی‌کند؛ همان‌طور که نامه نوشته‌شده روی کاغذ به نویسنده نسبت داده می‌شود، نه به خود کاغذ. البته بحث کلام الهی و حدوث یا قدم قرآن در مکاتب کلامی تفصیل‌های مهمی دارد.",
+ simple:"وقتی نامه‌ای برایت می‌نویسند، روی کاغذ نوشته شده. ولی می‌گویی «این نامه از طرف فلانی است»، نه اینکه کاغذ حرف زده! قرآن هم همین‌طور است: کاغذ و مرکب وسیله‌اند، ولی محتوا و پیام از خداست.",
+ logic:"تمایز حامل، لفظ و مدلول محور این پاسخ مقدماتی است.",
+ lesson:"وسیله انتقال پیام را با صاحب پیام یا محتوای پیام یکی نگیر."
+},
+{
+ title:"چرا «انسان حیوان ناطق است» با «زید انسان است» یک نوع حمل نیست؟",
+ type:"نمونه مستقیم درس",
+ question:"در هر دو جمله محمولی به موضوع نسبت داده شده؛ پس چرا یکی حمل اولی و دیگری حمل شایع است؟",
+ answer:"در «انسان حیوان ناطق است»، محمول شرح و تحلیل مفهوم انسان است؛ پس اتحاد مفهومی داریم (حمل اولی). اما در «زید انسان است»، مفهوم زید (فرد مشخص) و مفهوم انسان کلی متفاوت‌اند؛ زید مصداق انسان است. بنابراین در اولی اتحاد مفهومی و در دومی اتحاد مصداقی برقرار است. این نمونه روشن و مستقیم تفاوت دو قسم حمل است.",
+ simple:"«انسان حیوان ناطق است» یعنی داری انسان را تعریف می‌کنی. «زید انسان است» یعنی داری یک فرد خارجی را به یک مفهوم کلی وصل می‌کنی. اولی تعریف است، دومی خبر دادن از یک شخص.",
+ logic:"این نمونه روشن و مستقیم تفاوت دو قسم حمل است.",
+ lesson:"برای تشخیص، مفهوم موضوع و محمول را مقایسه کن؛ اگر محمول تعریف و تحلیل موضوع بود اولی، و اگر دو مفهوم متفاوت در یک مصداق جمع شدند شایع است."
+},
+{
+ title:"آیا هر چیزی که نامش در قرآن آمده، حکم خط قرآن را دارد؟",
+ type:"موضوع حکم",
+ question:"اگر نام یک انسان یا شیء در قرآن آمده باشد، آیا هر نوشته دیگری از همان نام نیز حکم نوشته قرآنی را پیدا می‌کند؟",
+ answer:"خیر. باید میان لفظ در جایگاه آیه و نوشته عادیِ همان لفظ فرق گذاشت. حکم ویژه خط قرآن به نوشته‌ای مربوط است که واقعاً جزء متن قرآن باشد؛ صرف یکسان بودن حروف در نوشته‌ای دیگر، آن نوشته را آیه قرآن نمی‌کند. این مورد ادامه دقیق‌تر مثال استاد است و به تعیین موضوع حکم فقهی و تفاوت حیثیت قرآنی بودن متن مربوط است.",
+ simple:"اگر روی تخته بنویسی «قل هو الله احد»، این تخته حکم قرآن را ندارد. قرآن آن نوشته‌ای است که در کتاب قرآن چاپ شده. اسم ابلیس هم اگر در روزنامه بیاید، حکم قرآن را ندارد.",
+ logic:"این مورد ادامه دقیق‌تر مثال استاد است و به تعیین موضوع حکم فقهی و تفاوت حیثیت قرآنی بودن متن مربوط است.",
+ lesson:"حکم را به موضوع واقعی خودش نسبت بده، نه به هر چیزی که از نظر لفظ شبیه آن است."
+},
+{
+ title:"اگر انسان موجودی مادی است، چگونه مفاهیم عقلی و کلی را درک می‌کند؟",
+ type:"مفهوم و مصداق",
+ question:"انسان در جهان مادی زندگی می‌کند؛ پس چگونه مفهوم کلی مثل انسان، عدالت یا عدد را درک می‌کند که در خارج به صورت یک جسم خاص نیست؟",
+ answer:"باید میان وجود مادیِ شخصِ درک‌کننده و نوع محتوای ادراک او فرق گذاشت. انسان با قوای ادراکی خود مفاهیم کلی را می‌فهمد؛ مادی بودن بدن به این معنا نیست که هر متعلق شناخت نیز باید یک جسم جزئی باشد. تبیین فلسفی دقیقِ کیفیت ادراک کلی، در مکاتب فلسفی بحث مستقلی دارد. این شبهه بیشتر به فلسفه نفس و معرفت‌شناسی مربوط است.",
+ simple:"چشم ما مادی است، ولی می‌تواند رنگ‌ها را ببیند که خودشان جسم نیستند. ذهن ما هم می‌تواند مفاهیم کلی مثل «عدالت» را درک کند، هرچند خودش یک جسم نیست. مادی بودن ابزار، دلیل مادی بودن همه چیزهایی که درک می‌کنیم نیست.",
+ logic:"این شبهه بیشتر به فلسفه نفس و معرفت‌شناسی مربوط است.",
+ lesson:"ویژگیِ شناسنده را بی‌دلیل به متعلق شناخت سرایت نده."
+},
+{
+ title:"اگر خدا عادل است، چرا انسان‌ها با شرایط نابرابر متولد می‌شوند؟",
+ type:"عدالت و تفاوت شرایط",
+ question:"برخی با امکانات، سلامت و خانواده مناسب متولد می‌شوند و برخی با محرومیت و دشواری؛ چگونه این تفاوت با عدالت خدا سازگار است؟",
+ answer:"برای پاسخ باید میان تفاوت تکوینی، ظلم اخلاقی و معیار داوری نهایی فرق گذاشت. صرف متفاوت بودن شرایط، به تنهایی اثبات‌کننده ظلم نیست؛ اما باید نسبت این تفاوت‌ها با تکلیف، توانایی، جبران، اختیار دیگران و نظام پاداش و کیفر بررسی شود. در نگاه دینی، تکلیف متناسب با توان و شرایط است و هیچ‌کس به خاطر امری خارج از اختیارش مانند دیگری مؤاخذه نمی‌شود. با این حال مسئله رنج و نابرابری از مسائل عمیق کلامی است و نیازمند استدلال مفصل است.",
+ simple:"اینکه یکی در خانواده پولدار به دنیا بیاید و یکی در خانواده فقیر، تقصیر خدا نیست. خدا برای هر کسی امتحانی متناسب با شرایطش می‌گذارد. مثل معلمی که به یک دانش‌آموز سؤال سخت‌تر می‌دهد چون می‌داند توانش بیشتر است. عدالت یعنی هر کس به اندازه توانش تکلیف شود، نه اینکه همه شرایط یکسان داشته باشند.",
+ logic:"اینجا تمایز تفاوت و تبعیض ناروا، اختیار و شرایط غیر اختیاری و عدالت در داوری مهم است.",
+ lesson:"هر تفاوتی ظلم نیست؛ باید ملاک عدالت و نسبت شرایط با تکلیف را تحلیل کرد."
+},
+{
+ title:"اگر انسان مختار است، چرا خدا از قبل می‌داند چه انتخابی می‌کند؟",
+ type:"علم و اختیار",
+ question:"اگر انتخاب من از قبل برای خدا معلوم است، آیا می‌توانم خلاف آن را انتخاب کنم؟ اگر نمی‌توانم، پس مجبورم؟",
+ answer:"باید میان قطعیتِ متعلق علم الهی و اجبار فاعل فرق گذاشت. علم خدا به فعل، علم به همان فعل با همه ویژگی‌هایش است؛ اگر فعل با اختیار انسان تحقق می‌یابد، علم الهی نیز به فعل اختیاری تعلق گرفته است. دانستنِ انتخاب، علت سلب اختیار نیست. برای تبیین کامل، باید نسبت علم ازلی، زمان‌مندی انسان و علیت بررسی شود. این مسئله از مباحث دقیق کلامی و فلسفی است.",
+ simple:"فرض کن من از قبل می‌دانم که تو فردا چای می‌خوری. آیا دانستن من باعث می‌شود که تو چای بخوری؟ نه! تو خودت انتخاب می‌کنی. علم خدا هم همین‌طور است؛ او می‌داند، ولی انتخاب را به تو واگذار کرده.",
+ logic:"این مسئله از مباحث دقیق کلامی و فلسفی است؛ تمایز علم و اجبار مقدمه پاسخ است.",
+ lesson:"معلوم بودن یک انتخاب را با مجبور بودن انتخاب‌کننده یکی ندان."
+}
+];
+
+// ------------------- توابع نمایش شبهات -------------------
+function renderCases(){
+  const box=document.getElementById('cases');
+  box.innerHTML=objections.map((c,i)=>`
+    <article class="card case-card" data-search="${(c.title+c.type+c.question+c.answer+c.simple).toLowerCase().replace(/"/g,'&quot;')}">
+      <div class="case-top"><span class="num">${i+1}</span><h3>${c.title}</h3><span class="case-type">${c.type}</span></div>
+      <div class="case-body"><p><strong>صورت شبهه:</strong> ${c.question}</p></div>
+      <button class="expand" onclick="toggleAnswer(${i},this)">مشاهده پاسخ و تحلیل <span>＋</span></button>
+      <div class="answer" id="answer${i}">
+        <p><strong>پاسخ دقیق:</strong> ${c.answer}</p>
+        <p><strong>به زبان ساده:</strong> ${c.simple}</p>
+        <p><strong>ارتباط با منطق:</strong> ${c.logic}</p>
+        <p><strong>نکته آموزشی:</strong> ${c.lesson}</p>
+      </div>
+    </article>
+  `).join('');
+}
+function toggleAnswer(i,btn){
+  const el=document.getElementById('answer'+i);
+  el.classList.toggle('open');
+  btn.innerHTML=el.classList.contains('open')?'بستن پاسخ و تحلیل <span>−</span>':'مشاهده پاسخ و تحلیل <span>＋</span>';
+}
+function filterCases(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  document.querySelectorAll('.case-card').forEach(c=>c.style.display=c.dataset.search.includes(q)?'block':'none');
+}
+
+// ------------------- آزمون -------------------
+const questions=[
+{q:'«انسان، حیوان ناطق است» نمونه کدام حمل است؟',o:['حمل اولی ذاتی','حمل شایع صناعی','اشتراک لفظی','حکم ثانوی'],a:0,e:'در این گزاره «حیوان ناطق» تحلیل و شرح مفهوم انسان است؛ بنابراین اتحاد مفهومی داریم و حمل، اولی ذاتی است.'},
+{q:'«زید انسان است» چرا حمل شایع صناعی است؟',o:['چون دو لفظ شبیه‌اند','چون مفهوم زید و انسان یکی است','چون زید مصداق مفهوم انسان است','چون جمله تعریف لغوی است'],a:2,e:'مفهوم زید، فرد مشخص است و مفهوم انسان، کلی است. این دو مفهوم متفاوت‌اند؛ اما زید در خارج فردی از انسان است. اتحاد در مصداق، حمل شایع را می‌سازد.'},
+{q:'«این دیوار سفید است» چه نوع حملی است؟',o:['اولی ذاتی','شایع صناعی','اشتراک لفظی','تناقض'],a:1,e:'مفهوم دیوار با مفهوم سفیدی متفاوت است، اما سفیدی در همان دیوار تحقق دارد؛ پس اتحاد مصداقی است.'},
+{q:'در مثال استاد، چرا نام ابلیس در متن قرآن حرمت دارد؟',o:['چون ابلیس موجود خوبی است','چون هر نوشته‌ای از نام ابلیس قرآن است','چون نوشته در جایگاه آیه، جزء متن قرآن است','چون نام‌ها هیچ معنایی ندارند'],a:2,e:'مذموم بودن شخص ابلیس با قرآنی بودن آیه‌ای که نام او را نقل می‌کند دو حیثیت جداست. حکم لمس خط قرآن به نوشته قرآنی مربوط است، نه هر نوشته عادی از این نام.'},
+{q:'آیا مثال ابلیس و ابولهب نمونه کاملاً خالص حمل اولی و شایع است؟',o:['بله، همیشه','خیر؛ بیشتر تفاوت حیثیت و موضوع حکم را نشان می‌دهد','فقط حمل اولی است','فقط اشتراک لفظی است'],a:1,e:'دقت علمی اقتضا می‌کند این مثال را بیشتر تفاوت حیثیت شخصِ مذموم و متن قرآنی بدانیم. نباید هر تمایز را به زور حمل اولی و شایع بنامیم.'},
+{q:'از گزاره «انسان ممکن است خطا کند» کدام نتیجه درست است؟',o:['همه انسان‌ها حتماً خطا می‌کنند','هیچ انسانی خطا نمی‌کند','خطا برای انسان ممکن است، نه ضروری برای تک‌تک افراد','انسان فقط در کودکی خطا می‌کند'],a:2,e:'امکان به معنای محال نبودن است، نه ضرورت وقوع. پس از امکان خطا نمی‌توان نتیجه گرفت همه افراد در همه شرایط خطا می‌کنند.'},
+{q:'«مثلث شکل سه‌ضلعی است» چه ویژگی‌ای دارد؟',o:['اتحاد مصداقی با اختلاف مفهوم','شرح و تحلیل مفهوم مثلث','اشتراک لفظی','حکم فقهی'],a:1,e:'شکل سه‌ضلعی تعریف و شرح مفهوم مثلث است؛ این مثال آموزشیِ حمل اولی ذاتی است.'},
+{q:'«شیر جنگل» و «شیر خوراکی» در یک جمله چه نکته‌ای را نشان می‌دهند؟',o:['اشتراک لفظی','حمل اولی','حمل شایع','حکم ثانوی'],a:0,e:'لفظ شیر برای دو معنای متفاوت به کار می‌رود. قبل از تحلیل گزاره باید معنای لفظ را مشخص کرد.'},
+{q:'دروغ که در حالت عادی حرام است، در بعضی شرایط خاص ممکن است مجاز شود. این بحث چیست؟',o:['حمل اولی و شایع','حکم اولی و ثانوی','تعریف ماهیت','اشتراک لفظی'],a:1,e:'حکم اولی به موضوع با عنوان نخستین تعلق می‌گیرد؛ با تحقق عنوان ثانوی مانند اضطرار و شرایط شرعی، حکم می‌تواند تغییر کند.'},
+{q:'گزارش قرآن از فرعون به معنای تأیید فرعون نیست؛ این تمایز چیست؟',o:['موضوع و محمول','حکایت و محکی','جنس و فصل','ماده و صورت'],a:1,e:'حکایت، سخن و گزارش است؛ محکی، چیزی است که گزارش درباره آن انجام می‌شود. گزارش درست از بدی، تأیید بدی نیست.'},
+{q:'اگر نماز اقتضای بازدارندگی از گناه دارد، چرا برخی نمازگزاران گناه می‌کنند؟',o:['چون نماز هیچ اثری ندارد','چون اقتضا مساوی علت تامه و اثر قطعی نیست','چون همه نمازها باطل‌اند','چون گناه فقط برای غیرنمازگزار است'],a:1,e:'اثر تربیتی نماز می‌تواند اقتضایی باشد و تحقق کامل آن به شرایطی مانند حضور قلب، معرفت و عمل وابسته باشد. اقتضا را نباید با علت تامه اشتباه گرفت.'},
+{q:'در حمل شایع، نسبت مفهوم موضوع و محمول چگونه است؟',o:['کاملاً یکی‌اند','دو مفهوم متفاوت‌اند و در مصداق متحد می‌شوند','هیچ ارتباطی ندارند','یکی لفظ و دیگری حرف است'],a:1,e:'در حمل شایع اختلاف مفهومی وجود دارد، اما محمول بر مصداق موضوع صدق می‌کند؛ مانند زید انسان است.'},
+{q:'اگر قرآن از شراب بهشتی سخن می‌گوید، کدام پاسخ دقیق‌تر است؟',o:['هر دو شراب از همه جهت یکسان‌اند','اشتراک در نام، اشتراک در تمام خواص و احکام را ثابت نمی‌کند','آیات قرآن متناقض‌اند','شراب دنیا هم حلال است'],a:1,e:'شراب بهشتی اوصاف خاصی دارد و با شراب دنیوی از جهت مست‌کنندگی و زیان تفاوت دارد. هم‌نامی، وحدت همه اوصاف را ثابت نمی‌کند.'},
+{q:'آیا هر شبهه‌ای را می‌توان فقط با حمل اولی و شایع حل کرد؟',o:['بله، همه شبهات همین‌اند','خیر؛ گاهی به تفسیر، کلام، فلسفه، لغت یا اصول فقه نیاز است','فقط شبهات فقهی را می‌توان','هیچ شبهه‌ای را نمی‌توان'],a:1,e:'حمل اولی و شایع فقط نوع اتحاد موضوع و محمول را روشن می‌کنند. بسیاری از شبهات به ابزارهای علمی دیگری نیاز دارند و باید نوع مسئله را درست تشخیص داد.'},
+{q:'کدام گزینه تعریف درست حمل اولی ذاتی است؟',o:['اتحاد در مصداق با اختلاف مفهوم','اتحاد مفهومی موضوع و محمول','تفاوت کامل موضوع و محمول','صدق محمول در زمان آینده'],a:1,e:'در حمل اولی، موضوع و محمول از نظر مفهوم متحدند و محمول حقیقت مفهومی موضوع را بیان یا تحلیل می‌کند.'}
+];
+let answers={};
+const faNums=['۱','۲','۳','۴'];
+
+function renderQuiz(){
+  const root=document.getElementById('quizArea');
+  root.innerHTML=questions.map((q,i)=>`
+    <div class="card" id="quiz${i}">
+      <p class="quiz-q">${i+1}. ${q.q}</p>
+      <div>${q.o.map((o,j)=>`<button class="choice" id="choice${i}_${j}" onclick="answerQuestion(${i},${j})"><span class="letter">${faNums[j]}</span><span>${o}</span></button>`).join('')}</div>
+      <div class="feedback" id="feedback${i}"></div>
+    </div>
+  `).join('');
+  updateProgress();
+}
+
+function answerQuestion(i,j){
+  if(answers[i]!==undefined)return;
+  answers[i]=j;
+  const q=questions[i];
+  const correct=j===q.a;
+  q.o.forEach((_,k)=>{
+    const b=document.getElementById(`choice${i}_${k}`);
+    b.disabled=true;
+    if(k===q.a)b.classList.add('correct');
+    if(k===j&&!correct)b.classList.add('wrong');
+  });
+  const f=document.getElementById('feedback'+i);
+  f.className='feedback show '+(correct?'good':'bad');
+  f.innerHTML=correct?
+    `<b>آفرین! پاسخ درست است.</b><br><b>توضیح:</b> ${q.e}`:
+    `<b>این پاسخ درست نیست.</b><br><b>پاسخ صحیح:</b> گزینه ${faNums[q.a]} ـ ${q.o[q.a]}<br><b>توضیح کامل:</b> ${q.e}`;
+  updateProgress();
+}
+
+function updateProgress(){
+  const n=Object.keys(answers).length;
+  document.getElementById('progressText').textContent=`${n} از ${questions.length} پاسخ داده‌شده`;
+  document.getElementById('progressBar').style.width=(n/questions.length*100)+'%';
+  if(n===questions.length){
+    const score=questions.filter((q,i)=>answers[i]===q.a).length;
+    document.getElementById('scoreTitle').textContent='آزمون به پایان رسید';
+    document.getElementById('scoreText').textContent=`نتیجه شما: ${score} پاسخ درست از ${questions.length} سؤال. ${score>=13?'تسلط بسیار خوب!':score>=10?'خوب است؛ پاسخ‌های اشتباه را دوباره مرور کن.':'پیشنهاد می‌شود درس‌نامه و توضیحات پاسخ‌ها را دوباره مطالعه کنی.'}`;
+  }
+}
+
+function resetQuiz(){
+  answers={};
+  renderQuiz();
+  document.getElementById('scoreTitle').textContent='نتیجه آزمون';
+  document.getElementById('scoreText').textContent='پس از پاسخ به سؤال‌ها، نتیجه اینجا نمایش داده می‌شود.';
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+  document.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.navitem').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  const dark=document.body.classList.contains('dark');
+  document.getElementById('themeBtn').textContent=dark?'☀':'☾';
+  document.querySelector('meta[name="theme-color"]').content=dark?'#101722':'#f4f7fb';
+});
+
+// مقداردهی اولیه
+renderCases();
+renderQuiz();
+</script>
+</body>
+</html>
